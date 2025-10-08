@@ -43,6 +43,8 @@ CERTSPOTTER_API=
 Load keys (if using .env, the script loads it automatically if python-dotenv is installed) or export in shell:
 export VT_API="your_virustotal_key"
 # repeat for other keys as needed
+![Cipher Banner](cipher.png)
+
 
 5. Run
 
