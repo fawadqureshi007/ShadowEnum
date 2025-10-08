@@ -35,6 +35,12 @@ pip install -r requirements.txt
 Then Install this
 pip install aiohttp aiodns python-dotenv rich
 
+---
+Install this wordlist
+curl -sS -o subdomains-top1million-110000.txt \
+  https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt
+---
+
 (Optional) Provide API keys
 
 If you want to enable API-backed sources, create a .env file in the project root (do not commit it). You can copy the example below into .env and fill values:
