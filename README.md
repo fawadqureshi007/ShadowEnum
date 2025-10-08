@@ -1,42 +1,54 @@
-ShadowEnum
+# cipher
 
-ShadowEnum is a fast and asynchronous subdomain enumeration tool designed for penetration testers, bug bounty hunters, and security researchers. It combines brute-force, DNS resolution, API integrations, CRT.sh, and Shodan lookups to find live subdomains and gather threat intelligence.
+**cipher** is an asynchronous passive reconnaissance tool in Python for subdomain enumeration.  
+It aggregates passive sources (crt.sh, CertSpotter, BufferOver, RapidDNS, Wayback, Google) and optionally uses API-backed sources (VirusTotal, SecurityTrails, Shodan, AlienVault OTX). The tool performs DNS validation, wildcard detection, candidate permutation, and optional HTTP probing (status + title).
 
-Developed by: Fawad Qureshi
+> ⚠️ **Security:** This repo does **not** include any hard-coded API keys. API keys are loaded from environment variables or a local `.env` file. **Do not** commit `.env` to version control.
 
-Features
+---
 
-Asynchronous DNS resolution (using Cloudflare 1.1.1.1 / 1.0.0.1)
+# Quick single-file setup & usage
 
-Brute-force subdomain enumeration using custom wordlists
+## 1. Clone
+```bash
+git clone https://github.com/fawadqureshi007/cipher.git
+cd cipher
 
-API integrations for more comprehensive results:
+Create & activate Python virtual environment
 
-VirusTotal – subdomains & reputation
+Linux / macOS:
+python3 -m venv venv
+source venv/bin/activate
 
-SecurityTrails – historical & live subdomains
-
-AlienVault OTX – passive DNS & threat intelligence
-
-CRT.sh support for historical subdomains
-
-Shodan lookups for public IPs (open ports, organization, CVEs)
-
-Duplicate filtering by IP for cleaner results
-
-Export results in TXT, JSON, and HTML formats
-
-Fully asynchronous for faster scans
-
-Installation
-
-Clone the repository:
-git clone https://github.com/fawadqureshi007/recon-assets.git
-cd recon-assets
-
-Install dependencies:
+Then install
+pip install --upgrade pip
 pip install -r requirements.txt
 
-Setup
+Then Install this
+pip install aiohttp aiodns python-dotenv rich
 
-ShadowEnum requires API keys for VirusTotal, SecurityTrails, AlienVault, and Shodan. On the first run, it automatically creates a .env file in your home directory with placeholders. Edit it with your API keys:
+(Optional) Provide API keys
+
+If you want to enable API-backed sources, create a .env file in the project root (do not commit it). You can copy the example below into .env and fill values:
+
+.env.example (copy into .env and fill)
+
+ST_API=
+SHODAN_API=
+OTX_API=
+VT_API=
+CERTSPOTTER_API=
+
+
+Load keys (if using .env, the script loads it automatically if python-dotenv is installed) or export in shell:
+export VT_API="your_virustotal_key"
+# repeat for other keys as needed
+
+5. Run
+
+Basic:
+python cipher.py example.com
+
+With HTTB Probing:
+python cipher.py example.com --http-probe
+
