@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-# recon_plus_improved.py
-# Improved recon: more passive sources, permutations, faster producers, better DNS resolving
-# - Uses API keys from environment variables: ST_API, SHODAN_API, OTX_API, VT_API, CERTSPOTTER_API
-# - Optional: place keys in .env and install python-dotenv (development only)
-
 import asyncio
 import aiohttp
 import aiodns
