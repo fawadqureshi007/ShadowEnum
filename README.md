@@ -1,4 +1,4 @@
-# cipher
+# SHADOW ENUM
 
 **cipher** is an asynchronous passive reconnaissance tool in Python for subdomain enumeration.  
 It aggregates passive sources (crt.sh, CertSpotter, BufferOver, RapidDNS, Wayback, Google) and optionally uses API-backed sources (VirusTotal, SecurityTrails, Shodan, AlienVault OTX). The tool performs DNS validation, wildcard detection, candidate permutation, and optional HTTP probing (status + title).
