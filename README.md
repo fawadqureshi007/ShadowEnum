@@ -7,62 +7,120 @@ It aggregates passive sources (crt.sh, CertSpotter, BufferOver, RapidDNS, Waybac
   <img src="https://github.com/fawadqureshi007/cipher/blob/main/cipher.png?raw=true" alt="cipher banner" width="600"/>
 </p>
 
+---
 
-> ⚠️ **Security:** This repo does **not** include any hard-coded API keys. API keys are loaded from environment variables or a local `.env` file. **Do not** commit `.env` to version control.
+## ⚠️ Security Notice
+
+This repository does **NOT** contain any hard-coded API keys.  
+API keys are loaded via **environment variables** or a local **`.env` file**.
+
+🚫 **Never commit your `.env` file** to GitHub.
 
 ---
 
-# Quick single-file setup & usage
+## 🚀 Quick Setup & Usage
 
-## 1. Clone
+### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/fawadqureshi007/cipher.git
 cd cipher
+````
+
 ---
 
-Create & activate Python virtual environment
-Linux / macOS:
----
+### 2️⃣ Create & Activate Virtual Environment
+
+**Linux / macOS**
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
+```
+
+**Windows (PowerShell)**
+
+```powershell
+python -m venv venv
+venv\Scripts\activate
+```
+
 ---
 
-Then install
----
+### 3️⃣ Install Dependencies
+
+```bash
 pip install --upgrade pip
 pip install -r requirements.txt
----
-Then Install this
 pip install aiohttp aiodns python-dotenv rich
+```
 
 ---
-Install this wordlist
-curl -sS -o subdomains-top1million-110000.txt \
-  https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt
+
+### 4️⃣ Download Subdomain Wordlist
+
+```bash
+wget -O subdomains-top1million-110000.txt \
+https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt
+```
+
+Verify:
+
+```bash
+wc -l subdomains-top1million-110000.txt
+```
+
 ---
 
-(Optional) Provide API keys
+### 5️⃣ (Optional) API Keys Setup
 
-If you want to enable API-backed sources, create a .env file in the project root (do not commit it). You can copy the example below into .env and fill values:
+Create a `.env` file in the project root:
 
-.env.example (copy into .env and fill)
-----
+```env
 ST_API=
 SHODAN_API=
 OTX_API=
 VT_API=
 CERTSPOTTER_API=
+```
 
-----
-Load keys (if using .env, the script loads it automatically if python-dotenv is installed) or export in shell:
+> `.env` is automatically loaded if `python-dotenv` is installed.
+
+**OR export manually**
+
+```bash
 export VT_API="your_virustotal_key"
-# repeat for other keys as needed
+export SHODAN_API="your_shodan_key"
+export OTX_API="your_otx_key"
+export CERTSPOTTER_API="your_certspotter_key"
+```
 
-5. Run
+---
 
-Basic:
+### 6️⃣ Run Cipher
+
+**Basic**
+
+```bash
 python cipher.py example.com
+```
 
-With HTTB Probing:
-python cipher.py example.com --http-probe
+**With HTTP Probing**
+
+```bash
+python cipher.py example.com --http
+```
+
+---
+
+## 🛑 Disclaimer
+
+For **educational and authorized security testing only**.
+Do not use against systems without permission.
+
+---
+
+⭐ If you like this project, give it a star!
+
+```
+```
 
