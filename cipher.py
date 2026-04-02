@@ -60,29 +60,43 @@ async def retry_coro(coro, *args, retries=3, delay=0.4, backoff=2, **kwargs):
 
 # ===== DNS resolve with fallback and caching (A + CNAME) =====
 _dns_cache = {}
+
 async def resolve(domain):
     domain = domain.strip().rstrip(".")
+
     if domain in _dns_cache:
         return _dns_cache[domain]
+
+    # -------------------------
+    # PRIMARY: aiodns
+    # -------------------------
     try:
-        res = await retry_coro(resolver.gethostbyname, domain, socket.AF_INET, retries=2)
-        ip = None
-        if getattr(res, "addresses", None):
-            ip = res.addresses[0]
+        res = await retry_coro(resolver.query_dns, domain, "A", retries=2)
+
+        if res:
+            ip = res[0].host if hasattr(res[0], "host") else res[0]
             _dns_cache[domain] = ip
             return ip
+
     except Exception:
         pass
-    # fallback to blocking socket lookup in threadpool
-    loop = asyncio.get_event_loop()
+
+    # -------------------------
+    # FALLBACK: socket
+    # -------------------------
+    loop = asyncio.get_running_loop()
+
     try:
-        ip = await loop.run_in_executor(None, socket.gethostbyname, domain)
+        def fallback():
+            return socket.getaddrinfo(domain, None, socket.AF_INET)[0][4][0]
+
+        ip = await loop.run_in_executor(None, fallback)
         _dns_cache[domain] = ip
         return ip
+
     except Exception:
         _dns_cache[domain] = None
         return None
-
 # ===== shared HTTP client with semaphore =====
 class HTTPClient:
     def __init__(self, max_connections=200):
