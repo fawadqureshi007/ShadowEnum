@@ -45,7 +45,13 @@ DEFAULT_WORDLISTS = [
 ]
 
 HIGH_VALUE_PREFIXES = ["admin","dev","test","stage","mail","api","prod","uat","preprod","staging"]
-resolver = aiodns.DNSResolver(timeout=4)
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+
+resolver = aiodns.DNSResolver(
+    timeout=4,
+    loop=loop
+)
 
 # ===== small retry helper =====
 async def retry_coro(coro, *args, retries=3, delay=0.4, backoff=2, **kwargs):
